@@ -16,12 +16,13 @@ mofron.layout.Relative = class extends mofron.Layout {
             if ('object' === typeof tp) {
                 this.prmOpt(tp);
             } else {
-                this.type(tp);
-                this.value(val);
+                if ('string' === typeof tp) {
+                    this.type(tp);
+                    this.value(val);
+                } else if ('number' === typeof tp) {
+                    this.value(tp);
+                }
             }
-            this.target().style({
-                'position' : 'relative'
-            });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -36,8 +37,9 @@ mofron.layout.Relative = class extends mofron.Layout {
                 throw new Error('invalid type/value');
             }
             var setmgn = {};
+            setmgn['position'] = 'relative';
             setmgn[tp] = val + 'px';
-            tgt.vdom().style(setmgn);
+            tgt.adom().style(setmgn);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -78,5 +80,4 @@ mofron.layout.Relative = class extends mofron.Layout {
         }
     }
 }
-mofron.layout.relative = {};
 module.exports = mofron.layout.Relative;
