@@ -38,7 +38,8 @@ mofron.layout.Relative = class extends mofron.Layout {
             }
             var setmgn = {};
             setmgn['position'] = 'relative';
-            setmgn[tp] = val + 'px';
+            setmgn[tp] = (val * (idx+1)) + 'px';
+            
             tgt.adom().style(setmgn);
         } catch (e) {
             console.error(e.stack);
@@ -80,4 +81,5 @@ mofron.layout.Relative = class extends mofron.Layout {
         }
     }
 }
+mofron.layout.relative = {};
 module.exports = mofron.layout.Relative;
