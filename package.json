@@ -1,6 +1,6 @@
 {
   "name": "mofron-layout-relative",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "relative layout for mofron",
   "main": "index.js",
   "scripts": {
