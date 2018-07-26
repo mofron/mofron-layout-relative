@@ -9,23 +9,9 @@ mofron.layout.Relative = class extends mofron.Layout {
         try {
             super();
             this.name('Relative');
-            
+            this.prmMap('type', );
             this.prmOpt(po, p2, p3);
             this.getParam().check(
-                (tp) => {
-                    try {
-                        if ( ('string' != (typeof tp)) ||
-                             ( ('top'    != tp) &&
-                               ('right'  != tp) &&
-                               ('bottom' != tp) &&
-                               ('left'   != tp) ) ) {
-                            throw new Error('invalid parameter');
-                        }
-                    } catch (e) {
-                        console.error(e.stack);
-                        throw e;
-                    }
-                },
                 (val) => {
                     try {
                         if ('string' !== (typeof val) && ('number' !== typeof val)) {
@@ -72,6 +58,45 @@ mofron.layout.Relative = class extends mofron.Layout {
             throw e;
         }
     }
+    
+    type (tp) {
+        try {
+            if (undefined === tp) {
+                return (undefined === this.m_type) ? null : this.m_type;
+            }
+            if ( ('string' != (typeof tp)) ||
+                 ( (''       != tp) &&
+                   ('top'    != tp) &&
+                   ('right'  != tp) &&
+                   ('bottom' != tp) &&
+                   ('left'   != tp) ) ) {
+                throw new Error('invalid parameter');
+            }
+            this.m_type = tp;
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    value (prm) {
+        try {
+            if (undefined === prm) {
+                /* getter */
+                return (undefined === this.m_value) ? 0 : this.m_value;
+            }
+            /* setter */
+            if ('string' !== (typeof prm) && ('number' !== typeof prm)) {
+                throw new Error('invalid parameter');
+            }
+            this.m_value = prm;
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    
 }
 module.exports = mofron.layout.Relative;
 /* end of file */
