@@ -9,34 +9,8 @@ mofron.layout.Relative = class extends mofron.Layout {
         try {
             super();
             this.name('Relative');
-            this.prmMap('type', );
+            this.prmMap('type', 'value', 'multiple');
             this.prmOpt(po, p2, p3);
-            this.getParam().check(
-                (val) => {
-                    try {
-                        if ('string' !== (typeof val) && ('number' !== typeof val)) {
-                            throw new Error('invalid parameter');
-                        }
-                    } catch (e) {
-                        console.error(e.stack);
-                        throw e;
-                    }
-                },
-                (mlt) => {
-                    try {
-                        if (undefined === mlt) {
-                            return false;
-                        }
-                        if ('boolean' !== (typeof mlt)) {
-                            throw new Error('invalid parameter');
-                        }
-                    } catch (e) {
-                        console.error(e.stack);
-                        throw e;
-                    }
-                }
-            );
-            
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -45,13 +19,9 @@ mofron.layout.Relative = class extends mofron.Layout {
     
     contents (idx, tgt) {
         try {
-            let prm = this.value();
-            let tp  = prm[0];
-            let val = prm[1];
-            let mlt = prm[2];
             var setmgn = {};
             setmgn['position'] = 'relative';
-            setmgn[tp] = (true === mlt) ? (val * (idx+1)) + 'px' : val + 'px';
+            setmgn[this.type()] = (true === this.multiple()) ? (this.value() * (idx+1)) + 'px' : this.value() + 'px';
             tgt.adom().style(setmgn);
         } catch (e) {
             console.error(e.stack);
@@ -96,7 +66,22 @@ mofron.layout.Relative = class extends mofron.Layout {
         }
     }
     
-    
+    multiple (prm) {
+        try {
+            if (undefined === prm) {
+                /* getter */
+                return (undefined === this.m_multi) ? false : this.m_multi;
+            }
+            /* setter */
+            if ('boolean' !== typeof prm) {
+                throw new Error('invalid parameter');
+            }
+            this.m_multi = prm;
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
 }
 module.exports = mofron.layout.Relative;
 /* end of file */
