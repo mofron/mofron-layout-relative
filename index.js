@@ -19,9 +19,17 @@ mofron.layout.Relative = class extends mofron.Layout {
     
     contents (idx, tgt) {
         try {
-            var setmgn = {};
+            let setmgn = {};
             setmgn['position'] = 'relative';
-            setmgn[this.type()] = (true === this.multiple()) ? (this.value() * (idx+1)) + 'px' : this.value() + 'px';
+            if (null === this.type()) {
+                throw new Error('could not find type');
+            }
+            
+            if ((true === this.multiple()) && ('number' === typeof this.value())) {
+                setmgn[this.type()] = this.value() * (idx+1) + 'px';
+            } else {
+                setmgn[this.type()] = ('string' !== typeof this.value()) ? this.value() + 'px' : this.value();
+            }
             tgt.adom().style(setmgn);
         } catch (e) {
             console.error(e.stack);
@@ -34,12 +42,11 @@ mofron.layout.Relative = class extends mofron.Layout {
             if (undefined === tp) {
                 return (undefined === this.m_type) ? null : this.m_type;
             }
-            if ( ('string' != (typeof tp)) ||
-                 ( (''       != tp) &&
-                   ('top'    != tp) &&
-                   ('right'  != tp) &&
-                   ('bottom' != tp) &&
-                   ('left'   != tp) ) ) {
+            if ( ('string' !== (typeof tp)) ||
+                 ( ('top'    !== tp) &&
+                   ('right'  !== tp) &&
+                   ('bottom' !== tp) &&
+                   ('left'   !== tp) ) ) {
                 throw new Error('invalid parameter');
             }
             this.m_type = tp;
