@@ -3,8 +3,9 @@
  * @brief relative layout of mofron
  * @author simpart
  */
+const mf = require('mofron');
 
-mofron.layout.Relative = class extends mofron.Layout {
+mf.layout.Relative = class extends mf.Layout {
     constructor (po, p2, p3) {
         try {
             super();
@@ -25,10 +26,10 @@ mofron.layout.Relative = class extends mofron.Layout {
                 throw new Error('could not find type');
             }
             
-            if ((true === this.multiple()) && ('number' === typeof this.value())) {
-                setmgn[this.type()] = this.value() * (idx+1) + 'px';
+            if (true === this.multiple()) {
+                setmgn[this.type()] = this.value().value() * (idx+1) + this.value().type();
             } else {
-                setmgn[this.type()] = ('string' !== typeof this.value()) ? this.value() + 'px' : this.value();
+                setmgn[this.type()] = this.value().toString();
             }
             tgt.adom().style(setmgn);
         } catch (e) {
@@ -60,13 +61,10 @@ mofron.layout.Relative = class extends mofron.Layout {
         try {
             if (undefined === prm) {
                 /* getter */
-                return (undefined === this.m_value) ? 0 : this.m_value;
+                return (undefined === this.m_value) ? mf.func.getSizeObj('0rem') : this.m_value;
             }
             /* setter */
-            if ('string' !== (typeof prm) && ('number' !== typeof prm)) {
-                throw new Error('invalid parameter');
-            }
-            this.m_value = prm;
+            this.m_value = mf.func.getSizeObj(prm);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -77,7 +75,7 @@ mofron.layout.Relative = class extends mofron.Layout {
         try {
             if (undefined === prm) {
                 /* getter */
-                return (undefined === this.m_multi) ? false : this.m_multi;
+                return (undefined === this.m_multi) ? true : this.m_multi;
             }
             /* setter */
             if ('boolean' !== typeof prm) {
@@ -90,5 +88,5 @@ mofron.layout.Relative = class extends mofron.Layout {
         }
     }
 }
-module.exports = mofron.layout.Relative;
+module.exports = mf.layout.Relative;
 /* end of file */
