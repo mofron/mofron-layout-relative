@@ -10,7 +10,7 @@ mf.layout.Relative = class extends mf.Layout {
         try {
             super();
             this.name('Relative');
-            this.prmMap('type', 'value', 'multiple');
+            this.prmMap(['type', 'value', 'multiple']);
             this.prmOpt(po, p2, p3);
         } catch (e) {
             console.error(e.stack);
@@ -25,7 +25,6 @@ mf.layout.Relative = class extends mf.Layout {
             if (null === this.type()) {
                 throw new Error('could not find type');
             }
-            
             if (true === this.multiple()) {
                 setmgn[this.type()] = this.value().value() * (idx+1) + this.value().type();
             } else {
@@ -38,20 +37,8 @@ mf.layout.Relative = class extends mf.Layout {
         }
     }
     
-    type (tp) {
-        try {
-            if (undefined === tp) {
-                return (undefined === this.m_type) ? null : this.m_type;
-            }
-            if ( ('string' !== (typeof tp)) ||
-                 ( ('top'    !== tp) &&
-                   ('right'  !== tp) &&
-                   ('bottom' !== tp) &&
-                   ('left'   !== tp) ) ) {
-                throw new Error('invalid parameter');
-            }
-            this.m_type = tp;
-        } catch (e) {
+    type (prm) {
+        try { return this.member('type', ['top', 'right', 'bottom', 'left'], prm); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -59,12 +46,11 @@ mf.layout.Relative = class extends mf.Layout {
     
     value (prm) {
         try {
-            if (undefined === prm) {
-                /* getter */
-                return (undefined === this.m_value) ? mf.func.getSizeObj('0rem') : this.m_value;
-            }
-            /* setter */
-            this.m_value = mf.func.getSizeObj(prm);
+            return this.member(
+                'value',
+                ['Size'],
+                (undefined !== prm) ? mf.func.getSize(prm) : prm
+            );
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -72,17 +58,7 @@ mf.layout.Relative = class extends mf.Layout {
     }
     
     multiple (prm) {
-        try {
-            if (undefined === prm) {
-                /* getter */
-                return (undefined === this.m_multi) ? true : this.m_multi;
-            }
-            /* setter */
-            if ('boolean' !== typeof prm) {
-                throw new Error('invalid parameter');
-            }
-            this.m_multi = prm;
-        } catch (e) {
+        try { return this.member('multiple', 'boolean', prm, true); } catch (e) {
             console.error(e.stack);
             throw e;
         }
