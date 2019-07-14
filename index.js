@@ -43,7 +43,12 @@ mf.layout.Relative = class extends mf.Layout {
             
             let val = mf.func.getSize(this.value());
             if (true === this.multiples()) {
-                setmgn[this.type()] = val.value() * (idx+1) + val.type();
+                let int_val = mf.func.flo2int(val.value());
+                if (0 === int_val[1]) {
+                    setmgn[this.type()] = (int_val[0] * (idx+1)) + val.type();
+                } else {
+                    setmgn[this.type()] = ((int_val[0] * (idx+1))/int_val[1]) + val.type();
+                }
             } else {
                 setmgn[this.type()] = this.value();
             }
