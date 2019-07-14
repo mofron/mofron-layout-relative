@@ -1,6 +1,6 @@
 {
   "name": "mofron-layout-relative",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "relative layout for mofron",
   "main": "index.js",
   "scripts": {
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simpart/mofron-layout-relative.git"
+    "url": "git+https://github.com/mofron/mofron-layout-relative.git"
   },
   "keywords": [
-    "mofron"
+    "front-end"
   ],
   "author": "simparts",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/simpart/mofron-layout-relative/issues"
+    "url": "https://github.com/mofron/mofron-layout-relative/issues"
   },
-  "homepage": "https://github.com/simpart/mofron-layout-relative#readme"
+  "homepage": "https://github.com/mofron/mofron-layout-relative#readme"
 }
