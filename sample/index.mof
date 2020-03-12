@@ -3,7 +3,7 @@
     <tag module="mofron-layout-relative">Relat</tag>
 </require>
 
-<div layout=Relat("top","0.2rem")>
+<div layout=Relat:("top","0.2rem")>
     <Text>text 1</Text>
     <Text>text 2</Text>
     <Text>text 3</Text>

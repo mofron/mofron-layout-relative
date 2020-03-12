@@ -2,27 +2,35 @@
  * @file mofron-layout-relative/index.js
  * @brief relative layout of mofron
  * @feature components are placed offset by 'relative' style value
- * @author simpart
+ * @license MIT
  */
-const mf = require('mofron');
+const comutl = mofron.util.common;
+const cmputl = mofron.util.component;
 
-mf.layout.Relative = class extends mf.Layout {
+module.exports = class extends mofron.class.Layout {
     /**
      * initialize layout
      *
-     * @param (string/object) string: 'type' parameter
-     *                        object: layout options
-     * @param (string) 'value' parameter
-     * @param (boolean) 'multiples' parameter
-     * @pmap type,offset,multiples
+     * @param (mixed) mofron.class.ConfArg: 'type','value' parameter
+     *                key-value: layout config
+     * @short type,value
      * @type private
      */
-    constructor (po, p2, p3) {
+    constructor (prm) {
         try {
             super();
-            this.name('Relative');
-            this.prmMap(['type', 'offset', 'multiples']);
-            this.prmOpt(po, p2, p3);
+            this.name("Relative");
+            this.shortForm("type","value");
+            
+            /* init config */
+	    this.confmng().add("type", { type: "string", select: ["top", "right", "bottom", "left"], init: "top" });
+            this.confmng().add("value", { type: "size", init: "0rem" });
+            this.confmng().add("multiple", { type: "boolean", init: true }); 
+            
+	    /* set config */
+	    if (undefined !== prm) { 
+                this.config(prm);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -41,18 +49,18 @@ mf.layout.Relative = class extends mf.Layout {
             let setmgn = {};
             setmgn['position'] = 'relative';
             
-            let val = mf.func.getSize(this.value());
-            if (true === this.multiples()) {
-                let int_val = mf.func.flo2int(val.value());
-                if (0 === int_val[1]) {
-                    setmgn[this.type()] = (int_val[0] * (idx+1)) + val.type();
+            let val = comutl.getsize(this.value());
+            if (true === this.multiple()) {
+                let ival = comutl.flo2int(val.value());
+                if (0 === ival[1]) {
+                    setmgn[this.type()] = (ival[0] * (idx+1)) + val.type();
                 } else {
-                    setmgn[this.type()] = ((int_val[0] * (idx+1))/int_val[1]) + val.type();
+                    setmgn[this.type()] = ((ival[0] * (idx+1))/ival[1]) + val.type();
                 }
             } else {
                 setmgn[this.type()] = this.value();
             }
-            tgt.adom().style(setmgn);
+	    tgt.rootDom()[0].style(setmgn);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -68,7 +76,7 @@ mf.layout.Relative = class extends mf.Layout {
      */
     type (prm) {
         try {
-            return this.member('type', ['top', 'right', 'bottom', 'left'], prm, "top");
+	    return this.confmng("type", prm);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -78,16 +86,13 @@ mf.layout.Relative = class extends mf.Layout {
     /**
      * offset value
      *
-     * @param (string (size)) offset value
-     * @return (string (size)) offset value
+     * @param (string(size)) offset value
+     * @return (string(size)) offset value
      * @type parameter
      */
     offset (prm) {
         try {
-            if (undefined !== prm) {
-                mf.func.getSize(prm);
-            }
-            return this.member("value", "string", prm, "0rem");
+	    return this.value(prm);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -102,7 +107,9 @@ mf.layout.Relative = class extends mf.Layout {
      * @type parameter
      */
     value (prm) {
-        try { return this.offset(prm); } catch (e) {
+        try {
+	    return this.confmng("value", prm);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -116,12 +123,13 @@ mf.layout.Relative = class extends mf.Layout {
      * @return (boolean) multiple flag
      * @type parameter
      */
-    multiples (prm) {
-        try { return this.member('multiples', 'boolean', prm, true); } catch (e) {
+    multiple (prm) {
+        try {
+	    return this.confmng("multiple", prm);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
 }
-module.exports = mf.layout.Relative;
 /* end of file */
