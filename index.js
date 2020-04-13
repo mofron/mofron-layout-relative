@@ -11,12 +11,13 @@ module.exports = class extends mofron.class.Layout {
     /**
      * initialize layout
      *
-     * @param (mixed) mofron.class.ConfArg: 'type','value' parameter
-     *                key-value: layout config
+     * @param (mixed) type config parameter
+     *                key-value: layout config list
+     * @param (string(size)) value config parameter
      * @short type,value
      * @type private
      */
-    constructor (prm) {
+    constructor (p1,p2) {
         try {
             super();
             this.name("Relative");
@@ -28,8 +29,8 @@ module.exports = class extends mofron.class.Layout {
             this.confmng().add("multiple", { type: "boolean", init: true }); 
             
 	    /* set config */
-	    if (undefined !== prm) { 
-                this.config(prm);
+	    if (0 < arguments.length) { 
+                this.config(p1,p2);
             }
         } catch (e) {
             console.error(e.stack);
@@ -61,6 +62,7 @@ module.exports = class extends mofron.class.Layout {
                 setmgn[this.type()] = this.value();
             }
 	    tgt.rootDom()[0].style(setmgn);
+	    //cmputl.rstyle(this.component(), setmgn);
         } catch (e) {
             console.error(e.stack);
             throw e;
