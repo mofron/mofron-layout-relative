@@ -20,12 +20,12 @@ module.exports = class extends mofron.class.Layout {
     constructor (p1,p2) {
         try {
             super();
-            this.name("Relative");
+            this.modname("Relative");
             this.shortForm("type","value");
             
             /* init config */
-	    this.confmng().add("type", { type: "string", select: ["top", "right", "bottom", "left"], init: "top" });
-            this.confmng().add("value", { type: "size", init: "0rem" });
+	    this.confmng().add("type",     { type: "string",  select: ["top", "right", "bottom", "left"], init: "top" });
+            this.confmng().add("value",    { type: "size",    init: "0rem" });
             this.confmng().add("multiple", { type: "boolean", init: true }); 
             
 	    /* set config */
